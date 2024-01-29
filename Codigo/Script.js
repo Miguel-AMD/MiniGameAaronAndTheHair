@@ -99,6 +99,7 @@ function getRandomNumberInRange(min,max) {
     return Math.floor(Math.random() * (max - min) + min);
 }
 
+
 function getRandomOppositeCoords(arr,row,col){
     let nRows = arr.length;
     let nCols = arr[0].length;
@@ -125,6 +126,6 @@ s w w s c
 o s s s s
 `
 
-HTMLMapMaker(randomMapGenerator(10));
+HTMLMapMaker(randomMapGenerator(getRandomNumberInRange(5,20)));
 //HTMLMapMaker(MapExample,false);
 
