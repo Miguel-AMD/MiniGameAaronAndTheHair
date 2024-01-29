@@ -33,6 +33,9 @@ function HTMLMapMaker (string){
     let ncolumnas = Matriz[0].length;
     /**/
     let Mapa = document.getElementById('Mapa')
+    Mapa.style['grid-template-columns'] = `repeat(${ncolumnas},5vh)`
+    Mapa.style['grid-template-rows'] = `repeat(${nfilas},5vh)`
+    Mapa.style['width'] = `${nfilas*5}vh`
     for (let c=0; c<ncolumnas; c++){
         let ColumnaHTML = document.createElement('div');
         ColumnaHTML.className = 'Columna';
@@ -47,14 +50,14 @@ function HTMLMapMaker (string){
     }
 }
 
-function randomMapGenerator (){
+function randomMapGenerator (squareSide=20){
     let finalString = ``;
     let colCounter = 0;
     const Values = ['s','w','c'];
-    for (let c=0; c<20*20; c++){
-        if (colCounter === 20){finalString+='\n'; colCounter*=0;}
+    for (let c=0; c<squareSide*squareSide; c++){
+        if (colCounter === squareSide){finalString+='\n'; colCounter*=0;}
         let randEl = getRandomElementFromList(Values)[1];
-        if (colCounter === 19){finalString+=randEl;}
+        if (colCounter === squareSide-1){finalString+=randEl;}
         else {finalString += randEl + ' '}
         colCounter++;
     }
@@ -74,4 +77,5 @@ s w w s c
 s s s s s
 `
 
-HTMLMapMaker(randomMapGenerator());
+HTMLMapMaker(randomMapGenerator(Math.floor(Math.random()*20)));
+

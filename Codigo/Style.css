@@ -2,24 +2,23 @@ body {
     height: 100vh;
     width: 100vw;
     position: relative;
+    grid-template-columns: 1fr;
+    grid-template-rows: 1fr;
 }
 
 #Mapa {
-    background-color: ligthgreen;
     height: 100vh;
-    width: 100vw;
+    width: 95vh;
     display: grid;
     grid-template-columns: repeat(20,5vh);
     grid-template-rows: repeat(20,5vh);
-    position: absolute;
+    padding: 0px;
+    margin: auto;
 }
 
 .Columna {
-    height: 5vh;
     background-color: white;
     border-style: none;
-    padding: 0px;
-    margin: 0px;
 }
 
 .Celda {
