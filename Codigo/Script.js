@@ -108,10 +108,10 @@ function getRandomOppositeCoords(arr,row,col){
     let newRow;
     let newCol;
 
-    if (newRowMin>nRows/2){newRow = getRandomNumberInRange(newRowMin,nRows-1);}
+    if (newRowMin>nRows/2){newRow = getRandomNumberInRange(newRowMin-3,nRows-1);}
     else {newRow = getRandomNumberInRange(0,newRowMin);}
 
-    if (newColMin>nCols/2){newCol = getRandomNumberInRange(newColMin,nCols-1);}
+    if (newColMin>nCols/2){newCol = getRandomNumberInRange(newColMin-3,nCols-1);}
     else {newCol = getRandomNumberInRange(0,newColMin);}
 
     return [newRow,newCol];
@@ -125,6 +125,6 @@ s w w s c
 o s s s s
 `
 
-//HTMLMapMaker(randomMapGenerator(10));
-HTMLMapMaker(MapExample,false);
+HTMLMapMaker(randomMapGenerator(10));
+//HTMLMapMaker(MapExample,false);
 
