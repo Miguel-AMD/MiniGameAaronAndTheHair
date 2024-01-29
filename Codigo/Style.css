@@ -26,11 +26,15 @@ button {
     grid-template-rows: repeat(8, 100px);
 }
 
-#cat {
+.character {
     position: absolute;
     width: 100px;
     height: 100px;
     text-align: center;
     font-size: 80px;
     background-color: pink;
+}
+#mouse {
+    background-color: teal;
+    left: 700px;
 }
