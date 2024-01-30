@@ -27,14 +27,14 @@ function mouseUp() {
 }
 
 function mouseRight() {
-    if (mouseX <= 700) { // Adjusted for the right boundary, considering the mouse's size
-        mouseX -= 100;
+    if (mouseX < 700) { // Adjusted for the right boundary, considering the mouse's size
+        mouseX += 100;
         mouse.style.left = mouseX + "px";
     }
 }
 
 function mouseLeft() {
-    if (mouseX >= 0) { // Ensures mouseX doesn't go below 0
+    if (mouseX > 0) { // Ensures mouseX doesn't go below 0
         mouseX -= 100;
         mouse.style.left = mouseX + "px";
     }
@@ -47,7 +47,7 @@ function randomize(min, max) {
 
 
 function mouseMove() {
-    randomNumber = randomize(1, 4)     
+    randomNumber = randomize(1, 5)     
     switch (randomNumber) {
         case 1:
         mouseDown();
