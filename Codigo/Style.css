@@ -2,11 +2,19 @@ body {
     height: 100vh;
     width: 100vw;
     background-color: #E8DBC5;
+    position: relative;
+    font-family: Phantomsans, sans-serif;
 }
 
 .PantallaEntera {
     height: 100vh;
     width: 100vw;
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    border-width: 0px;
+    margin: 0px;
+    padding: 0px;
 }
 
 #PantallaJuego {
@@ -18,13 +26,15 @@ body {
         "i i m m m m m p p"
         "i i m m m m m p p"
         "i i m m m m m p p";
+    justify-content: center;
+    align-items: center;
 }
 
 #PantallaJuego > header {
     grid-area: h;
 }
 
-#PantallaJuego > .Instrucciones {
+#PantallaJuego > #Instrucciones {
     grid-area: i;
 }
 
@@ -32,8 +42,24 @@ body {
     grid-area: m;
 }
 
-#PantallaJuego > .Puntuacion {
+#PantallaJuego > #Puntuacion {
     grid-area: p;
+}
+
+#Instrucciones {
+    width: 300px;
+    justify-self: right;
+    padding-right: 45px;
+}
+
+#Puntuacion {
+    width: 300px;
+    justify-self: left;
+    padding-left: 45px;
+}
+
+#PantallaJuego header {
+    text-align: center;
 }
 
 #Mapa {
@@ -92,4 +118,41 @@ body {
 
 .RabbitSpawn {
     background-color: darkgoldenrod;
+}
+
+.WrapperContainer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+
+#PantallaDePausa {
+    background: radial-gradient(rgba(0,0,0,0.8),rgba(0,0,0,0.4));
+    color: whitesmoke;
+    visibility: hidden;
+}
+
+#PantallaDePausa header {
+    font-size: 60px;
+}
+
+#PantallaDePausa button {
+    height: 25px;
+    color: white;
+    background: radial-gradient(rgba(0,0,0,1),rgba(0,0,0,0.6));
+    border-radius: 10px;
+    border-width: 1px;
+    box-shadow: 0px 0px 3px 3px #F3EAF4;
+}
+
+
+#FinJuego {
+    visibility: visible;
+    background: radial-gradient(rgba(244,228,186,0.7),rgba(248, 196, 65,1)),
+                radial-gradient(rgba(1,1,1,1),rgba(1,1,1,0.8));
+}
+
+#FinJuego header {
+    font-size: 50px;
 }

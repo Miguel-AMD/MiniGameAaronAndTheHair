@@ -22,6 +22,10 @@
                     <li>S: Abajo</li>
                     <li>D: Derecha</li>
                 </ul>
+                <li>Juego</li>
+                <ul>
+                    <li>Esc: Menú de pausa</li>
+                </ul>
             </ol>
             <h3>Objetivo</h3>
             <p>Captura a la liebre antes de que pise todos los cultivos y los estropee.</p>
@@ -31,12 +35,30 @@
         <section id="Puntuacion">
             <h3>Puntuación</h3>
             <ul>
-               <li>Nivel: <span>0</span></li>
-               <li>Cultivos perdidos: <span>0</span></li>
-               <li>Cultivos salvados: <span>0</span></li>
-               <li>Liebres capturadas: <span>0</span></li>
+               <li>Nivel: <span class="NumeroPuntuacion">0</span></li>
             </ul>
         </section>
     </div> <!--Fin de pantalla de juego-->
+    <div class="PantallaEntera WrapperContainer" id="PantallaDePausa"> <!--Pantalla de pausa--> 
+        <div class="Wrapper">
+            <header>Menú de pausa</header>
+            <form action="">
+                <button>Recargar mapa</button>
+                <button>Finalizar juego</button>
+            </form>
+        </div>
+    </div> <!--Pantalla de pausa-->
+    <div class="PantallaEntera WrapperContainer" id="FinJuego"> <!--Pantalla Game Over-->
+        <div class="Wrapper">
+            <header>Game Over</header>
+            <h3>Puntuación final</h3>
+            <ul>
+                <li>Nivel más alto completado: <span class="NumeroPuntuacion">0</span></li>
+                <li>Cultivos perdidos: <span class="NumeroPuntuacion">0</span></li>
+                <li>Cultivos salvados: <span class="NumeroPuntuacion">0</span></li>
+                <li>Liebres capturadas: <span class="NumeroPuntuacion">0</span></li>
+            </ul>
+        </div>
+    </div> <!--Fin de Pantalla Game Over-->
 </body>
 </html>
