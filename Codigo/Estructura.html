@@ -4,7 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="Style.css">
+    
     <script src="./Script.js" defer></script>
+    <script src="./calculadoraCoords.js" defer></script>
+    
     <title>Aarón y la liebre.</title>
 </head>
 <body>
@@ -35,7 +38,7 @@
         <section id="Puntuacion">
             <h3>Puntuación</h3>
             <ul>
-               <li>Nivel: <span class="NumeroPuntuacion">0</span></li>
+               <li>Nivel: <span class="NumeroPuntuacion" id="PMapaNivel">0</span></li>
             </ul>
             <span><em>Tiempo restante:</em> 300</span>
         </section>
@@ -43,10 +46,10 @@
     <div class="PantallaEntera WrapperContainer" id="PantallaDePausa"> <!--Pantalla de pausa--> 
         <div class="Wrapper">
             <header>Menú de pausa</header>
-            <form action="">
+            <div id="Botones">
                 <button>Recargar mapa</button>
                 <button>Finalizar juego</button>
-            </form>
+            </div>
         </div>
     </div> <!--Pantalla de pausa-->
     <div class="PantallaEntera WrapperContainer" id="FinJuego"> <!--Pantalla Game Over-->
@@ -54,10 +57,10 @@
             <header>Game Over</header>
             <h3>Puntuación final</h3>
             <ul>
-                <li>Nivel más alto completado: <span class="NumeroPuntuacion">0</span></li>
-                <li>Cultivos perdidos: <span class="NumeroPuntuacion">0</span></li>
-                <li>Cultivos salvados: <span class="NumeroPuntuacion">0</span></li>
-                <li>Liebres capturadas: <span class="NumeroPuntuacion">0</span></li>
+                <li>Nivel más alto completado: <span class="NumeroPuntuacion" id="PNivel">0</span></li>
+                <li>Cultivos perdidos: <span class="NumeroPuntuacion" id="PCultivosPerdidos">0</span></li>
+                <li>Cultivos salvados: <span class="NumeroPuntuacion" id="PCultivosSalvados">0</span></li>
+                <li>Liebres capturadas: <span class="NumeroPuntuacion" id="PLiebresCapturadas">0</span></li>
             </ul>
         </div>
     </div> <!--Fin de Pantalla Game Over-->

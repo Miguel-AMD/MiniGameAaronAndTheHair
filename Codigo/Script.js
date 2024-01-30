@@ -34,7 +34,7 @@ function HTMLMapMaker (string, generateRabbitSpawn=true){
     if (generateRabbitSpawn){
         let RabbitCoords = getRandomOppositeCoords(Matriz,spawnCoords[0],spawnCoords[1]);
         Matriz[RabbitCoords[0]][RabbitCoords[1]] = 'r';
-        console.log(spawnCoords,RabbitCoords);
+        //console.log(spawnCoords,RabbitCoords);
     }
     
     //Comprobamos que la matriz es cuadrada.
