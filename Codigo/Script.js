@@ -6,6 +6,7 @@ const mouse = document.getElementById('mouse')
 //MOUSE MOVEMENT
 //all constraints must be valid. if in-bounds, moves at a random x or y location
 const speed = 500;
+const characterSquare = 100;
 var mouseY= 0;
 var mouseX=700;
     
@@ -65,29 +66,6 @@ function mouseMove() {
 }
 
 //KEYBOARD DIRECTIONAL INPUT
-document.addEventListener("keydown", function(e) {
-    setTimeout(function() { // Ensure this opening line is correct
-        switch (e.key) {
-            case "ArrowDown":
-            case "s":
-                moveDown();
-                break; // Make sure each case ends with 'break;'
-            case "ArrowUp":
-            case "w":
-                moveUp();
-                break;
-            case "ArrowLeft":
-            case "a":
-                moveLeft();
-                break;
-            case "ArrowRight":
-            case "d":
-                moveRight();
-                break;
-            // No additional comma or syntax issue here
-        }
-    }, speed); // 'speed' should be defined, and this line should end with ');'
-}); // This line should close the addEventListener call
 
 //SETS COORDINATES
 var yPos= 0;
@@ -127,6 +105,34 @@ function moveLeft() {
     }
     }
 
+document.addEventListener("keydown", function(e) {
+    setTimeout(function() {
+        if (xPos < mouseX + characterSquare &&
+            xPos + characterSquare > mouseX &&
+            yPos < mouseY + characterSquare &&
+            characterSquare + yPos > mouseY) 
+            {console.log("collision!");}
+        else {
+            switch (e.key) {
+            case "ArrowDown":
+            case "s":
+                moveDown();
+                break;
+            case "ArrowUp":
+            case "w":
+                moveUp();
+                break;
+            case "ArrowLeft":
+            case "a":
+                moveLeft();
+                break;
+            case "ArrowRight":
+            case "d":
+                moveRight();
+                break;}     
+        }
+    }, speed);
+});
 
 //END OF CODE
 };
