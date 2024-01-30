@@ -65,26 +65,29 @@ function mouseMove() {
 }
 
 //KEYBOARD DIRECTIONAL INPUT
-document.addEventListener("keydown", (e) => {
-switch (e.key) {
-    case "ArrowDown":
-    case "s":
-        moveDown();
-        break
-    case "ArrowUp":
-    case "w":
-        moveUp();
-        break
-    case "ArrowLeft":
-    case "a":
-        moveLeft();
-        break
-    case "ArrowRight":
-    case "d":
-        moveRight();
-        break
-} 
-});
+document.addEventListener("keydown", function(e) {
+    setTimeout(function() { // Ensure this opening line is correct
+        switch (e.key) {
+            case "ArrowDown":
+            case "s":
+                moveDown();
+                break; // Make sure each case ends with 'break;'
+            case "ArrowUp":
+            case "w":
+                moveUp();
+                break;
+            case "ArrowLeft":
+            case "a":
+                moveLeft();
+                break;
+            case "ArrowRight":
+            case "d":
+                moveRight();
+                break;
+            // No additional comma or syntax issue here
+        }
+    }, speed); // 'speed' should be defined, and this line should end with ');'
+}); // This line should close the addEventListener call
 
 //SETS COORDINATES
 var yPos= 0;
