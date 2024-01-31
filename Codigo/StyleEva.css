@@ -1,0 +1,40 @@
+#centerMe {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+h1 {
+    color: pink;
+}
+button {
+    background-color: aquamarine;
+    color: blue;
+    width: 100px;
+    margin-bottom: 20px;
+    font-weight: bolder;
+
+}
+
+#gameArena {
+    position: relative;
+    width: 800px;
+    height: 800px;
+    background-color: #ffe4c4;
+    border: 5px black;
+    grid-template-columns: repeat(8,100px);
+    grid-template-rows: repeat(8, 100px);
+}
+
+.character {
+    position: absolute;
+    width: 100px;
+    height: 100px;
+    text-align: center;
+    font-size: 80px;
+    background-color: pink;
+}
+#liebre {
+    background-color: teal;
+    left: 700px;
+}
