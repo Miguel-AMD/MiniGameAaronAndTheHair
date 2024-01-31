@@ -7,6 +7,7 @@ function HTMLMapMaker (string, generateRabbitSpawn=true){
     //Counters
     let rowCounter = 0;
     let colCounterList = [];
+    let numCultivos = 0;
 
     let row = 0;
     let column = 0;
@@ -23,6 +24,8 @@ function HTMLMapMaker (string, generateRabbitSpawn=true){
 
             column++
             if (c === 'o'){spawnCoords.push(row); spawnCoords.push(column);}
+            if (c === 'r'){var RabbitCoords = [row,column];}
+            if (c === 'c'){numCultivos++;}
         }
         Matriz.push(Mrow);
         colCounterList.push(colCounter);
@@ -32,7 +35,7 @@ function HTMLMapMaker (string, generateRabbitSpawn=true){
     }
     //Generamos el spawn del conejo si se nos pide.
     if (generateRabbitSpawn){
-        let RabbitCoords = getRandomOppositeCoords(Matriz,spawnCoords[0],spawnCoords[1]);
+        var RabbitCoords = getRandomOppositeCoords(Matriz,spawnCoords[0],spawnCoords[1]);
         Matriz[RabbitCoords[0]][RabbitCoords[1]] = 'r';
         //console.log(spawnCoords,RabbitCoords);
     }
@@ -69,7 +72,7 @@ function HTMLMapMaker (string, generateRabbitSpawn=true){
         }
         Mapa.appendChild(ColumnaHTML);
     }
-    return Matriz;
+    return [Matriz,spawnCoords,RabbitCoords,numCultivos];
 }
 
 function randomMapGenerator (squareSide=20){
