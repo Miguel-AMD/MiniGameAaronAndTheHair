@@ -11,7 +11,6 @@ function HTMLMapMaker (string, generateRabbitSpawn=true){
 
     let row = 0;
     let column = 0;
-    let spawnCoords = [];
     for (let r of rows){
         if (r.length === 0){continue;}
         rowCounter++;
@@ -21,11 +20,10 @@ function HTMLMapMaker (string, generateRabbitSpawn=true){
         for (let c of col){
             Mrow.push(c);
             colCounter++
-
-            column++
-            if (c === 'o'){spawnCoords.push(row); spawnCoords.push(column);}
+            if (c === 'o'){var spawnCoords= [row,column];}
             if (c === 'r'){var RabbitCoords = [row,column];}
             if (c === 'c'){numCultivos++;}
+            column++
         }
         Matriz.push(Mrow);
         colCounterList.push(colCounter);
@@ -121,14 +119,19 @@ function getRandomOppositeCoords(arr,row,col){
     return [newRow,newCol];
 }
 
+function clearMap(){
+    document.getElementById('Mapa').innerHTML = "";
+}
+
 const MapExample = `
-s s s s s
-c c w w r
+s s s s r
+c c w w s
 c c w s s
 s w w s c
 o s s s s
 `
 
-HTMLMapMaker(randomMapGenerator(getRandomNumberInRange(5,20)));
+//HTMLMapMaker(randomMapGenerator(getRandomNumberInRange(5,20)));
 //HTMLMapMaker(MapExample,false);
 
+export {HTMLMapMaker, randomMapGenerator, getRandomElementFromList, getRandomNumberInRange, MapExample, clearMap};

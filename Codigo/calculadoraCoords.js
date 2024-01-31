@@ -5,23 +5,25 @@ function coordenadasMapa(){
     return [Math.round(coords.left),Math.round(coords.top)];
 }
 
-function getElementFromCoord(x,y){
-    return document.getElementById('Mapa').children[x].children[y];
+function getElementFromCoord(row,col){
+    return document.getElementById('Mapa').children[col].children[row];
 }
 
-function posicionCoordenadaMapa(x,y){
+function posicionCoordenadaMapa(row,col){
     let C = coordenadasMapa();
-    let newX = (C[0]-8)+x*45;
-    let newY = (C[1]-8)+y*45;
-    return [newX,newY];
+    let xPos = (C[0]-8)+col*45;
+    let yPos = (C[1]-10)+row*45;
+    return [xPos,yPos];
 }
 
-function muevePersonaje(x,y,IdPersonaje){
-    let C = posicionCoordenadaMapa(x,y);
+function muevePersonaje(row,col,IdPersonaje){
+    let C = posicionCoordenadaMapa(row,col);
     let A = document.getElementById(IdPersonaje);
     A.style.left = (C[0])+'px';
     A.style.top = (C[1])+'px';
 }
 
-muevePersonaje(0,0,'Aaron')
-muevePersonaje(4,4,'Liebre')
+//muevePersonaje(0,0,'Aaron')
+//muevePersonaje(4,4,'Liebre')
+
+export {muevePersonaje, posicionCoordenadaMapa, coordenadasMapa, getElementFromCoord}

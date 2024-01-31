@@ -1,59 +1,88 @@
-import {HTMLMapMaker, randomMapGenerator, getRandomElementFromList} from './Script.js';
-import {MuevePersonaje, posicionCoordenadaMapa, coordenadasMapa, getElementFromCoord} from './calculadoraCoords.js';
+import {HTMLMapMaker, randomMapGenerator, getRandomElementFromList, getRandomNumberInRange, MapExample, clearMap} from './Script.js';
+import {muevePersonaje, posicionCoordenadaMapa, coordenadasMapa, getElementFromCoord} from './calculadoraCoords.js';
+
+
+function sleep(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
+}
 
 function GameRunner(){
+    let self = this;
     //Necesitamos varias variables globales que nos permitan tener control de la puntuación
-    this.nivelesSuperados = 0;
-    this.temporizadorInicial = 300;
-    this.cultivosMuertos = 0;
-    this.cultivosSalvados = 0;
+    self.nivelesSuperados = 0;
+    self.temporizador = undefined;
+    self.cultivosMuertos = 0;
+    self.cultivosSalvados = 0;
     //Generamos el mapa
-    this.strMap = randomMapGenerator(getRandomNumberInRange(5,20));
-    this.mapa = Map(strMap);
+    self.mapa = undefined;
+    self.genRandomMap = function(){
+        let strMap = randomMapGenerator(getRandomNumberInRange(5,20));
+        self.mapa = new Map(HTMLMapMaker(strMap,true));
+        self.temporizador = 90;
+        self.cultivosSalvados += self.mapa[3];
+        return undefined;
+    }
+    
     //En mapa tenemos todos los datos y métodos relacionados con el mapa, la matriz, los puntos de spawn y el número de cultivos
     
     //Inicializamos los personajes.
-    this.aaron = Character('Aaron');
-    this.liebre = Character('Liebre');
+    self.aaron = new Character('Aaron');
+    self.liebre = new Character('Liebre');
     //
-
+    
 
     //Definimos los atributos y procedimientos relacionados con el mapa.
     //Definimos la condición de colisión
-    this.captureCheck = function(){
-        let posA = this.aaron.getPosition();
-        let posL = this.liebre.getPosition();
-        return posA[0] === posL[0] && posA[1] === posL[1]
+    self.captureCheck = function(){
+        let posA = self.aaron.getPosition();
+        let posL = self.liebre.getPosition();
+        let cond = posA[0] === posL[0] && posA[1] === posL[1];
+        return cond;
     }
-    this.wallCheck = function(x,y,movement){
+    self.wallCheck = function(row,col,movement){
         switch (movement){
             case 'up':
-                return (this.mapa.getCellType(x,y-1) === 'w' || this.limitPassedCheck(x,y-1));
+                if (self.limitPassedCheck(row-1,col)){return true};
+                if (self.mapa.getCellType(row-1,col) === 'w'){return true;}
+                return false;
+                break;
             case 'down':
-                return (this.mapa.getCellType(x,y+1) === 'w' || this.limitPassedCheck(x,y+1));
+                if (self.limitPassedCheck(row+1,col)){return true};
+                if (self.mapa.getCellType(row+1,col) === 'w'){return true;}
+                return false;
+                break;
             case 'left':
-                return (this.mapa.getCellType(x-1,y) === 'w' || this.limitPassedCheck(x-1,y));
+                if (self.limitPassedCheck(row,col-1)){return true};
+                if (self.mapa.getCellType(row,col-1) === 'w'){return true;}
+                return false;
+                break;
             case 'right':
-                return (this.mapa.getCellType(x+1,y) === 'w' || this.limitPassedCheck(x+1,y));
+                if (self.limitPassedCheck(row,col+1)){return true};
+                if (self.mapa.getCellType(row,col+1) === 'w'){return true;}
+                return false;
+                break;
         }
+        
     }
-    this.limitPassedCheck = function(x,y){
-        let cond1 = x<0;
-        let cond2 = y<0;
-        let cond3 = x>this.mapa.getXLimit();
-        let cond4 = y>this.mapa.getYLimit();
+    self.limitPassedCheck = function(row,col){
+        let cond1 = row<0;
+        let cond2 = col<0;
+        let cond3 = row>self.mapa.getLimits()[0];
+        let cond4 = col>self.mapa.getLimits()[1];
         return (cond1 || cond2 || cond3 || cond4);
     }
-
-    this.moveCharacter = function(character,dir){
+    // Los métodos referidos al movimiento de los personajes
+    self.moveCharacter = function(character,dir){
         let characPos = character.getPosition();
+        
         //Comprobamos que se puede mover
-        if (!this.wallCheck(characPos[0],characPos[1]),dir){
+        if (!self.wallCheck(characPos[0],characPos[1],dir)){
             character.moveDir(dir);
         }
     }
 
-    this.moveMainCharacter = function(key){
+    self.moveMainCharacter = function(e){
+        let key=e.key;
         const keyMap = {
             'ArrowUp': 'up','w':'up',
             'ArrowDown': 'down','s': 'down',
@@ -61,70 +90,179 @@ function GameRunner(){
             'ArrowRight': 'right','d': 'right'
         };
         let dir = keyMap[key];
-        this.moveCharacter(this.aaron,dir);
+        self.moveCharacter(self.aaron,dir);
     }
 
-    this.moveRabbit = function(){
+    //Le ponemos un cooldown al movimiento del conejo
+    self.staticRabbit = false;
+    self.moveRabbit = function(){
         const moves = ['up','down','left','right'];
-        let dir = getRandomElementFromList(moves);
-        this.moveCharacter(this.liebre,dir);
+        let dir = getRandomElementFromList(moves)[1];
+        self.moveCharacter(self.liebre,dir);
     }
 
-    this.cropSteppedCheck = function(x,y){
-        return this.mapa.getCellType(x,y) === 'c';
+    self.cropSteppedCheck = function(row,col){
+        return self.mapa.getCellType(row,col) === 'c';
     }
 
-    this.changeCropState = function(x,y){
-        let e = getElementFromCoord(x,y);
-        e.style.className = 'CultivoMuerto';
+    self.changeCropState = function(row,col){
+        if (self.cropSteppedCheck(row,col)){
+            let e = getElementFromCoord(row,col);
+            e.className = 'Celda Suelo CultivoMuerto';
+            self.cultivosMuertos++;
+            self.cultivosSalvados--;
+        }
     }
 
-    this.movementSteps = function(){
-        document.addEventListener('keydown',this.moveMainCharacter);
-        this.moveRabbit();
-        let aPos = this.aaron.getPosition();
-        let rPos = this.liebre.getPosition();
+    self.finishCooldownRabbit = function(){self.staticRabbit = false;}
+    self.updateTimeRabbit = 200;
+    self.movementSteps = function(){
+        if(!self.staticRabbit){
+            self.moveRabbit();
+            self.staticRabbit = true;
+            setTimeout(self.finishCooldownRabbit,self.updateTimeRabbit);
+            //50 ms para poder poner un intervalo de ejecución de 25ms
+            //y poder capturar con ello la liebre sin mucho problema.
+        };
+        let aPos = self.aaron.getPosition();
+        let rPos = self.liebre.getPosition();
+        self.changeCropState(aPos[0],aPos[1]);
+        self.changeCropState(rPos[0],rPos[1]);
 
-        return this.captureCheck();
+        let captured = self.captureCheck();
+        if (captured){
+            self.nivelesSuperados++;
+            sleep(1500);
+            self.reloadGame();
+        }
+        return captured;
+    }
+    //Añadimos el temporizador
+    self.timerSet = function(){
+        self.temporizador--;
+        let e = document.getElementById('PTimer');
+        e.innerText = self.temporizador + '';
+    }
+    self.timerSteps = function(){
+        let check = self.temporizador <= 0;
+        if (check){
+            let e = document.getElementById('FinJuego');
+            e.style.visibility='visible';
+            clearInterval(self.timerIdGame);
+            clearInterval(self.timerIdTemporizador);
+        }
+        return check;}
+    //Se reduce en uno cada segundo el contador de tiempo.
+    
+
+    //Añadimos una variable para comprobar si se debe salir o no del juego.
+    self.outLoopCondition = false;
+    self.stopGame = false;
+    self.gameSteps = function(){
+        self.outLoopCondition = self.movementSteps() || self.timerSteps();
+        if (self.outLoopCondition){
+            clearInterval(self.timerIdGame);
+            clearInterval(self.timerIdTemporizador);
+        }
+    }
+    self.updateTime = 50;
+    
+    self.runGameIter = function(){
+        //Iniciamos el movimiento del personaje
+        document.addEventListener('keydown',self.moveMainCharacter);
+        self.genRandomMap();
+        let aS = self.mapa.getCharacterSpawn();
+        let rS = self.mapa.getRabbitSpawn();
+        self.aaron.setPosition(aS[0],aS[1]);
+        self.liebre.setPosition(rS[0],rS[1]);
+        
+        self.timerIdGame = setInterval(self.gameSteps,self.updateTime);
+        self.timerIdTemporizador = setInterval(self.timerSet,1000);
+    }
+
+    self.reloadGame = function(){
+        //clearInterval(self.timerIdTemporizador);
+        //clearInterval(self.timerIdGame);
+        sleep(1000);
+        clearMap();
+        self.updateScore();
+        self.runGameIter();
+    }
+
+    self.updateScore = function(){
+        let e = document.getElementById('PMapaNivel');
+        e.innerText = self.nivelesSuperados + '';
+
+        let e1 = document.getElementById('PNivel');
+        let e2 = document.getElementById('PCultivosPerdidos');
+        let e3 = document.getElementById('PCultivosSalvados');
+        let e4 = document.getElementById('PLiebresCapturadas');
+
+        e1.innerText = self.nivelesSuperados+'';
+        e2.innerText = self.cultivosMuertos +'';
+        e3.innerText = self.cultivosSalvados+'';
+        e4.innerText = self.nivelesSuperados+'';
     }
 }
 
 
-
-
-function Map(strMap){
-    this.mapData = HTMLMapMaker(strMap);
-    this.getCellType = function(row,col){return this.mapData[0][row][col];}
-    this.getCharacterSpawn = function(){return this.mapData[1];}
-    this.getRabbitSpawn = function(){return this.mapData[2];}
-    this.getTotalCrops = function(){return this.mapData[3];}
-    this.getLimits = function(){return [this.mapData[0].length-1, this.mapData[0][0].length-1];}
-    this.getXLimit = function(){this.getLimits()[0];}
-    this.getYLimit = function(){this.getLimits()[1];}
+function Map(mapData){
+    let self = this;
+    self.mapData = mapData;
+    
+    self.getCellType = function(row,col){return self.mapData[0][row][col];}
+    self.getCharacterSpawn = function(){return self.mapData[1];}
+    self.getRabbitSpawn = function(){return self.mapData[2];}
+    self.getTotalCrops = function(){return self.mapData[3];}
+    self.getLimits = function(){return [self.mapData[0].length-1, self.mapData[0][0].length-1];}
+    self.getRowLimit = function(){self.getLimits()[0];}
+    self.getColLimit = function(){self.getLimits()[1];}
 }
 
 
 function Character(name){
-    this.name=name;
-    this.x=0;
-    this.y=0;
-    this.setPosition = function(x,y){this.x=x; this.y=y;}
-    this.moveUp = function(){this.y--; this.mueveSprite(this.x,this.y);}
-    this.moveDown = function(){this.y++; this.mueveSprite(this.x,this.y);}
-    this.moveLeft = function(){this.x--; this.mueveSprite(this.x,this.y);}
-    this.moveRight = function(){this.x++; this.mueveSprite(this.x,this.y);}
-    this.getPosition = function(){return [this.x,this.y];}
-    this.mueveSprite = function(newX,newY){this.muevePersonaje(newX,newY,this.name);}
-    this.moveDir = function(dir){
+    let self = this;
+    self.name=name;
+    self.row=0;
+    self.col=0;
+    self.stepsCounter = 0;
+    self.setPosition = function(row,col){self.row=row; self.col=col; self.mueveSprite(self.row,self.col);}
+    self.moveUp = function(){self.row--; self.mueveSprite(self.row,self.col);}
+    self.moveDown = function(){self.row++; self.mueveSprite(self.row,self.col);}
+    self.moveLeft = function(){self.col--; self.mueveSprite(self.row,self.col);}
+    self.moveRight = function(){self.col++; self.mueveSprite(self.row,self.col);}
+    self.getPosition = function(){return [self.row,self.col];}
+    self.mueveSprite = function(newRow,newCol){muevePersonaje(newRow,newCol,self.name);}
+    self.moveDir = function(dir){
         switch (dir){
             case 'up':
-                this.moveUp();
+                self.moveUp();
+                break;
             case 'down':
-                this.moveDown();
+                self.moveDown();
+                break;
             case 'left':
-                this.moveLeft();
+                self.moveLeft();
+                break;
             case 'right':
-                this.moveRight();
+                self.moveRight();
+                break;
         }
+        self.stepsCounter++;
     }
+    self.getSteps = function(){return self.stepsCounter;}
 }
+
+
+
+
+function startGameKey(key){
+    if (key === 'ArrowUp'){game.runIter();}
+}
+
+function runGame(){
+    const game = new GameRunner();
+    game.reloadGame();
+}
+
+runGame();
