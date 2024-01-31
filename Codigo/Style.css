@@ -1,9 +1,10 @@
 body {
     height: 100vh;
     width: 100vw;
-    background-color: #E8DBC5;
+    background-color: black;
     position: relative;
-    font-family: Phantomsans, sans-serif;
+    font-family: 'VT323', monospace;
+    color: white
 }
 /*https://coolors.co/cc8b86-f9eae1-7d4f50-d1be9c-aa998f*/
 .PantallaEntera {
@@ -71,10 +72,10 @@ body {
     padding: 0px;
     margin: auto;
     border-style: solid;
-    border-color: black;
+    border-color: white;
     border-width: 3px;
-    /**/
-    box-shadow: 0px 0px 3px 5px rgba(0,0,0,0.4);
+    /*
+    box-shadow: 0px 0px 3px 5px rgba(0,0,0,0.4); */
 }
 
 .Columna {
@@ -98,26 +99,41 @@ body {
 }
 
 .Suelo {
-    background-color: burlywood;
+    background-color: #AAAAAA;
+    background-image: url(assets/suelo.jpeg);
 }
 
 .Muro {
-    background-color: brown;
+    background-color: #363636;
+    background-image: linear-gradient(
+        to right top,
+        transparent 40%,
+        black 40%,
+        black 60%,
+        transparent 66%
+    );
+    background-size: 3px 3px;
+    image-rendering: pixelated;
+
 }
 
 .Cultivo {
-    background-color: green;
+    background-color: #55ffa1;
+    background-image: url(assets/cultivoVivo.PNG);
 }
 
 .CultivoMuerto {
     background-color: darkgreen;
+    background-image: url(assets/cultivoMuerto.jpeg);
 }
 
 .Spawn {
-    background-color: lightgray;
+    background-color: rgb(100, 0, 0);
+    background-image: url(assets/spawn.jpeg);
 }
 
 .RabbitSpawn {
+    background-image: url(assets/spawnLiebre.jpeg);
     background-color: darkgoldenrod;
 }
 
