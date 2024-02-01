@@ -12,7 +12,7 @@ function getElementFromCoord(row,col){
 function posicionCoordenadaMapa(row,col){
     let C = coordenadasMapa();
     let xPos = (C[0]-8)+col*45;
-    let yPos = (C[1]-10)+row*45;
+    let yPos = (C[1]-8)+row*45;
     return [xPos,yPos];
 }
 

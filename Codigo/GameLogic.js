@@ -148,6 +148,10 @@ function GameRunner(){
         if (check){
             let e = document.getElementById('FinJuego');
             e.style.visibility='visible';
+            let a = document.getElementById('Aaron');
+            let r = document.getElementById('Liebre');
+            r.style.visibility='hidden';
+            a.style.visibility='hidden';
             clearInterval(self.timerIdGame);
             clearInterval(self.timerIdTemporizador);
         }
