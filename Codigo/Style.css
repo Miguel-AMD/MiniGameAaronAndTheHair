@@ -100,11 +100,14 @@ body {
 
 .Suelo {
     background-color: #AAAAAA;
-    background-image: url(assets/suelo.jpeg);
+    background-image: url(assets/floor.jpeg);
 }
 
 .Muro {
     background-color: #363636;
+    background-image: url(assets/brickwall.jpeg);
+    background-size: 100%;
+    /*
     background-image: linear-gradient(
         to right top,
         transparent 40%,
@@ -114,26 +117,28 @@ body {
     );
     background-size: 3px 3px;
     image-rendering: pixelated;
+    */
 
 }
 
 .Cultivo {
     background-color: #55ffa1;
-    background-image: url(assets/cultivoVivo.PNG);
+    background-image: url(assets/crop.jpeg);
 }
 
 .CultivoMuerto {
     background-color: darkgreen;
-    background-image: url(assets/cultivoMuerto.jpeg);
+    background-image: url(assets/deadcrop.jpeg);
+    background-size: 150%;
 }
 
 .Spawn {
     background-color: rgb(100, 0, 0);
-    background-image: url(assets/spawn.jpeg);
+    background-image: url(assets/floor.jpeg);
 }
 
 .RabbitSpawn {
-    background-image: url(assets/spawnLiebre.jpeg);
+    background-image: url(assets/floor.jpeg);
     background-color: darkgoldenrod;
 }
 
@@ -182,6 +187,8 @@ body {
     height: 45px;
     position: absolute;
     background-color: lightgreen;
+    background-image: url(assets/farmer.jpeg);
+    background-size: 150%;
     border-width: 0px;
     top: 20px;
     left: 20px;
@@ -193,6 +200,8 @@ body {
     height: 45px;
     position: absolute;
     background-color: red;
+    background-image: url(assets/hare.jpeg);
+    background-size: 100%;
     border-width: 0px;
     top: 100px;
     left: 100px;
