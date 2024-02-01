@@ -105,12 +105,22 @@ function GameRunner(){
         return self.mapa.getCellType(row,col) === 'c';
     }
 
+    /*Audios*/
+    //self.audioDeadCrop = new Audio('./audios/CropDead.mp3');
+    //self.musicaFondo = new Audio('./audios/DoomMusicaFondo.mp3');
+    //self.audioNextLevel = new Audio('./audios/NextLevel.mp3');
+    //self.stopAudio = function(audio){audio.pause();}
+    /*Audios*/
     self.changeCropState = function(row,col){
         if (self.cropSteppedCheck(row,col)){
             let e = getElementFromCoord(row,col);
             e.className = 'Celda Suelo CultivoMuerto';
             self.cultivosMuertos++;
             self.cultivosSalvados--;
+            /*Audios*/
+            //self.audioDeadCrop.play();
+            //setTimeout(self.stopAudio(self.audioDeadCrop),500);
+            /*Audios*/
         }
     }
 
@@ -132,6 +142,10 @@ function GameRunner(){
         let captured = self.captureCheck();
         if (captured){
             self.nivelesSuperados++;
+            /* Audios */
+            //self.audioNextLevel.play();
+            //setTimeout(self.stopAudio(self.audioNextLevel),500);
+            /* Audios */
             sleep(1500);
             self.reloadGame();
         }
@@ -265,6 +279,12 @@ function startGameKey(key){
 }
 
 function runGame(){
+    /* Audios */
+    //let stopAudio = function(audio){audio.pause();}
+    //let musicaFondo = new Audio('./audios/DoomMusicaFondo.mp3');
+    //musicaFondo.play();
+    //setTimeout(stopAudio(musicaFondo),3000000);
+    /* Audios */
     const game = new GameRunner();
     game.reloadGame();
 }
